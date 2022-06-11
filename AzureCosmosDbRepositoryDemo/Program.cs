@@ -6,7 +6,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCosmosRepository();
+builder.Services.AddCosmosRepository(options =>
+{
+    options.SerializationOptions = new Microsoft.Azure.CosmosRepository.Options.RepositorySerializationOptions
+    {
+        PropertyNamingPolicy = Microsoft.Azure.Cosmos.CosmosPropertyNamingPolicy.Default
+    };
+});
 builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {

@@ -21,10 +21,21 @@ namespace AzureCosmosDbRepositoryDemo.Controllers
 
         [HttpGet("{id}", Name = nameof(GetEmployeeById))]
         public ValueTask<Employee> GetEmployeeById(string id) =>
-            _repository.GetAsync(id,"1");
+            _repository.GetAsync(id, "1");
 
         [HttpPost]
-        public ValueTask<IEnumerable<Employee>> AddEmployees([FromBody] params Employee[] employees) =>
-            _repository.CreateAsync(employees);
+        public async ValueTask<IEnumerable<Employee>> AddEmployees([FromBody] params Employee[] employees)
+        {
+            try
+            {
+
+                return await _repository.CreateAsync(employees);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
